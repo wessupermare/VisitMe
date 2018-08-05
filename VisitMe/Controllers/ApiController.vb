@@ -4,59 +4,64 @@ Imports System.Web.Http
 Public Class ApiControllers
     Friend Shared ReadOnly RequestManager As New RequestManager()
 
-    <Route("api/[controller]")>
-    Public Class VisitController
+    <RoutePrefix("api/request")>
+    Public Class RequestController
         Inherits ApiController
 
         ' POST api/<controller>
-        Public Function PostValue(<FromBody> Client As Patient) As UInteger
+        <Route("")>
+        Public Function PostValue(<FromBody> Client As Patient) As Integer
             Return RequestManager.RequestVisit(Client)
         End Function
     End Class
 
-    <Route("api/[controller]")>
+    <RoutePrefix("api/check")>
     Public Class CheckController
         Inherits ApiController
 
         'Checks the status of a pending request
+        <Route("{id:int}")>
         <HttpGet>
-        Public Function GetValue(<FromBody> Id As UInteger) As Visitor
-            Return RequestManager.GetStatus(Id)
+        Public Function GetValue(id As Integer) As Visitor
+            Return RequestManager.GetStatus(id)
         End Function
     End Class
 
-    <Route("api/[controller]")>
+    <RoutePrefix("api/accept")>
     Public Class AcceptController
         Inherits ApiController
 
         'Accepts a locked visit request.
+        <Route("{id:int}")>
         <HttpPost>
-        Public Function Post(<FromBody> Id As UInteger, Visitor As Visitor) As VisitRequest
-            Return RequestManager.AcceptRequest(Id, Visitor)
+        Public Function Post(id As Integer, <FromBody> Visitor As Visitor) As VisitRequest
+            Return RequestManager.AcceptRequest(id, Visitor)
         End Function
     End Class
 
-    <Route("api/[controller]")>
+    <RoutePrefix("api/reject")>
     Public Class RejectController
         Inherits ApiController
 
         'Rejects a locked visit request.
+        <Route("{id:int}")>
         <HttpPost>
-        Public Sub Post(<FromBody> Id As UInteger)
-            RequestManager.RejectRequest(Id)
+        Public Sub Post(id As Integer)
+            RequestManager.RejectRequest(id)
         End Sub
     End Class
 
 
-    <Route("api/[controller]")>
+    <RoutePrefix("api/find")>
     Public Class FindController
         Inherits ApiController
 
         'Returns the oldest request within a certain distance from provided GPS coordinates
         'NOTE: SUPER, EXTRA-SPECIAL *NOT* SECURE IN THE SLIGHTEST
-        <HttpGet>
-        Public Function GetValue(<FromBody> Location As GPSLocation, Range As UInteger) As PendingRequestInfo
-            Return RequestManager.GetRequestInRange(Location, Range)
+        <Route("{id:int:min(0)}")>
+        <HttpPost>
+        Public Function Post(id As Integer, <FromBody> Location As GPSLocation) As PendingRequestInfo
+            Return RequestManager.GetRequestInRange(Location, id)
         End Function
     End Class
 End Class

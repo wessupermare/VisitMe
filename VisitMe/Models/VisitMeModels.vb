@@ -39,7 +39,7 @@ End Structure
 
 Public Structure PendingRequestInfo
     <JsonProperty(PropertyName:="id")>
-    Public ID As UInteger
+    Public ID As Integer
     <JsonProperty(PropertyName:="hospital")>
     Public Hospital As Hospital
 End Structure
@@ -75,7 +75,7 @@ Public Enum State
     Florida
     Georgia
     Hawaii
-    Idaho
+    idaho
     Illinois
     Indiana
     Iowa

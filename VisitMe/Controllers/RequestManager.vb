@@ -4,17 +4,17 @@ Imports System.Threading.Tasks
 Public NotInheritable Class RequestManager
     Private Const TIMEOUT = 30 'Minutes
 
-    Private PendingRequests As New Dictionary(Of UInteger, VisitRequest)
-    Private LockedRequests As New Dictionary(Of UInteger, VisitRequest)
-    Private AcceptedRequests As New Dictionary(Of UInteger, (Request As VisitRequest, Visitor As Visitor))
+    Private PendingRequests As New Dictionary(Of Integer, VisitRequest)
+    Private LockedRequests As New Dictionary(Of Integer, VisitRequest)
+    Private AcceptedRequests As New Dictionary(Of Integer, (Request As VisitRequest, Visitor As Visitor))
 
-    Public Function RequestVisit(Client As Patient) As UInteger
+    Public Function RequestVisit(Client As Patient) As Integer
         Return RequestVisit(New VisitRequest(Client))
     End Function
 
-    Private Function RequestVisit(Request As VisitRequest) As UInteger
+    Private Function RequestVisit(Request As VisitRequest) As Integer
         Dim rand As New Random()
-        Dim id As UInteger = rand.Next()
+        Dim id As Integer = rand.Next()
         While PendingRequests.ContainsKey(id) OrElse LockedRequests.ContainsKey(id)
             id = rand.Next
         End While
@@ -22,7 +22,7 @@ Public NotInheritable Class RequestManager
         Return id
     End Function
 
-    Public Function GetRequestInRange(Location As GPSLocation, Range As UInteger) As PendingRequestInfo
+    Public Function GetRequestInRange(Location As GPSLocation, Range As Integer) As PendingRequestInfo
         Dim sorted = From pair In PendingRequests
                      Order By pair.Value.Time
         For Each request In sorted
@@ -36,7 +36,7 @@ Public NotInheritable Class RequestManager
         Return Nothing
     End Function
 
-    Private Sub ForceTimeout(id As UInteger, timeout As TimeSpan)
+    Private Sub ForceTimeout(id As Integer, timeout As TimeSpan)
         Dim sw = Stopwatch.StartNew()
         Do Until sw.Elapsed >= timeout
             Thread.Sleep(New TimeSpan(0, 0, 5))
@@ -46,25 +46,25 @@ Public NotInheritable Class RequestManager
         LockedRequests.Remove(id)
     End Sub
 
-    Public Function AcceptRequest(id As UInteger, visitor As Visitor) As VisitRequest
+    Public Function AcceptRequest(id As Integer, visitor As Visitor) As VisitRequest
         If LockedRequests.ContainsKey(id) Then
             Dim retval = LockedRequests(id)
             AcceptedRequests.Add(id, (retval, visitor))
             LockedRequests.Remove(id)
             Return retval
         Else
-            Throw New TimeoutException
+            Return Nothing
         End If
     End Function
 
-    Public Sub RejectRequest(id As UInteger)
+    Public Sub RejectRequest(id As Integer)
         If LockedRequests.ContainsKey(id) Then
             PendingRequests.Add(id, LockedRequests(id))
             LockedRequests.Remove(id)
         End If
     End Sub
 
-    Public Function GetStatus(id As UInteger) As Visitor
+    Public Function GetStatus(id As Integer) As Visitor
         If AcceptedRequests.ContainsKey(id) Then
             Return AcceptedRequests(id).Visitor
         Else

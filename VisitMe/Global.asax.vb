@@ -1,10 +1,12 @@
-﻿Imports System.Web.Optimization
+﻿Imports System.Web.Http
+Imports System.Web.Optimization
 
 Public Class MvcApplication
-    Inherits System.Web.HttpApplication
+    Inherits HttpApplication
 
     Protected Sub Application_Start()
         AreaRegistration.RegisterAllAreas()
+        WebApiConfig.Register(GlobalConfiguration.Configuration)
         FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)
         RouteConfig.RegisterRoutes(RouteTable.Routes)
         BundleConfig.RegisterBundles(BundleTable.Bundles)
