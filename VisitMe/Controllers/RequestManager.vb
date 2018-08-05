@@ -9,6 +9,11 @@ Public NotInheritable Class RequestManager
     Private AcceptedRequests As New Dictionary(Of Integer, (Request As VisitRequest, Visitor As Visitor))
 
     Public Function RequestVisit(Client As Patient) As Integer
+        If Client.Hospital.Coordinates = New GPSLocation Then
+            Client.Hospital = (From h As Hospital In (From h As Hospital In Hospitals
+                                                      Select h Where Client.Hospital.Name Like h.Name)
+                               Select h Where Not Client.Hospital.ZIP = 0 OrElse Client.Hospital.ZIP = h.ZIP).FirstOrDefault
+        End If
         Return RequestVisit(New VisitRequest(Client))
     End Function
 

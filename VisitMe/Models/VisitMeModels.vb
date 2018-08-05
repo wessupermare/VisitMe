@@ -24,19 +24,6 @@ Public Structure Visitor
     Public Church As String
 End Structure
 
-Public Structure Hospital
-    <JsonProperty(PropertyName:="name")>
-    Public Name As String
-    <JsonProperty(PropertyName:="loc")>
-    Public Coordinates As GPSLocation
-    <JsonProperty(PropertyName:="addr")>
-    Public Address As String
-    <JsonProperty(PropertyName:="city")>
-    Public City As String
-    <JsonProperty(PropertyName:="state")>
-    Public State As State
-End Structure
-
 Public Structure PendingRequestInfo
     <JsonProperty(PropertyName:="id")>
     Public ID As Integer
@@ -61,6 +48,14 @@ Public Structure GPSLocation
     Public Latitude As Double
     <JsonProperty(PropertyName:="lon")>
     Public Longitude As Double
+
+    Public Shared Operator =(left As GPSLocation, right As GPSLocation) As Boolean
+        Return left.Latitude = right.Latitude AndAlso left.Longitude = right.Longitude
+    End Operator
+
+    Public Shared Operator <>(left As GPSLocation, right As GPSLocation) As Boolean
+        Return Not left = right
+    End Operator
 End Structure
 
 Public Enum State
