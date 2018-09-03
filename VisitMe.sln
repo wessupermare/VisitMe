@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27924.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VisitMe", "VisitMe\VisitMe.vbproj", "{5211BBFC-5AFB-46E1-B9DB-A429817BD39A}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VisitMe.WinForm", "VisitMe.WinForm\VisitMe.WinForm.vbproj", "{24D8EC52-2BBE-4818-84B0-10596839DF34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5211BBFC-5AFB-46E1-B9DB-A429817BD39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5211BBFC-5AFB-46E1-B9DB-A429817BD39A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5211BBFC-5AFB-46E1-B9DB-A429817BD39A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D8EC52-2BBE-4818-84B0-10596839DF34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D8EC52-2BBE-4818-84B0-10596839DF34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D8EC52-2BBE-4818-84B0-10596839DF34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D8EC52-2BBE-4818-84B0-10596839DF34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

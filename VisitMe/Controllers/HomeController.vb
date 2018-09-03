@@ -1,10 +1,9 @@
-﻿<RequireHttps>
-Public Class HomeController
-    Inherits Controller
+﻿Imports System.Net.Http
+Imports System.Threading.Tasks
 
-    Function Index() As ActionResult
-        Return View()
-    End Function
+<RequireHttps>
+Partial Public Class HomeController
+    Inherits Controller
 
     Function About() As ActionResult
         ViewData("Message") = "Your application description page."
